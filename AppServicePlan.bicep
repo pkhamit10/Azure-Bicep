@@ -19,4 +19,13 @@ resource azbicepappserv1 'Microsoft.Web/sites@2021-02-01' = {
   dependsOn: [
     azbicepasp1
   ] 
+} 
+
+resource azbicepappinsights1 'Microsoft.Insights/components@2020-02-02' = {
+  name: 'azbicep-dev-fc-ai1'
+  location: resourceGroup().location
+  kind: 'web'
+  properties: {
+    Application_Type: 'web'
+  }
 }
