@@ -2,10 +2,10 @@ resource azbicepasp1 'Microsoft.Web/serverfarms@2021-02-01' = {
   name: 'azbicep_dev_fc_asp1'
   location: resourceGroup().location
   sku: {
-    name: 'F1'
-    tier: 'Free'
-    size: 'F1'
-    family: 'F'
+    name: 'S1'
+    tier: 'standard'
+    size: 'S1'
+    family: 'S'
     capacity: 1
   }
 }
