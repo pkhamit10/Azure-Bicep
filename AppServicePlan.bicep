@@ -21,6 +21,23 @@ resource azbicepappserv1 'Microsoft.Web/sites@2021-02-01' = {
   ] 
 } 
 
+resource azbicepwebapp1appsetting 'Microsoft.Web/sites/config@2025-03-01'  = {
+  parent: azbicepappserv1
+  name: 'web'
+  properties: {
+    appSettings: [
+      {
+        name: 'key1'
+        value: 'value1'
+      }
+      {
+        name: 'key2'
+        value: 'value2'
+      }
+    ]
+  }
+}
+ 
 resource azbicepappinsights1 'Microsoft.Insights/components@2020-02-02' = {
   name: 'azbicep-dev-fc-ai1'
   location: resourceGroup().location
