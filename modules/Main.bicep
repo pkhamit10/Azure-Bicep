@@ -9,7 +9,7 @@ module AppServicePlan '../AppServicePlan.bicep' = {
   params: {
     pAppServicePlanName: pAppServicePlanName
     pAppServiceName: pAppServiceName
-    pAppInsightsName: pAppInsightsName
+    pInstrumentkey: AppInsights.outputs.oAppInsightsInstrumentationKey
   }
 }
 
@@ -18,5 +18,12 @@ module SQLDatabase '../SQLDatabase.bicep' = {
   params: {
     pSqlServerName: pSqlServerName
     pSqlDatabaseName: pSqlDatabaseName
+  }
+}
+
+module AppInsights 'AppInsights.bicep' = {
+  name: 'AppInsightsDeployment'
+  params: {
+    pAppInsightsName: pAppInsightsName
   }
 }
