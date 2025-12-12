@@ -1,0 +1,260 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.39.26.7824",
+      "templateHash": "7403365268395953338"
+    }
+  },
+  "parameters": {
+    "pAppServicePlanName": {
+      "type": "string",
+      "defaultValue": "azbicep_dev_fc_asp1"
+    },
+    "pAppServiceName": {
+      "type": "string",
+      "defaultValue": "azbicep-dev-fc-webapp1"
+    },
+    "pAppInsightsName": {
+      "type": "string",
+      "defaultValue": "azbicep-dev-fc-ai1"
+    },
+    "pSqlServerName": {
+      "type": "string",
+      "defaultValue": "azbicep-dev-fc-sqlserver1"
+    },
+    "pSqlDatabaseName": {
+      "type": "string",
+      "defaultValue": "database1"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2025-04-01",
+      "name": "deployAppServicePlan",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "pAppServicePlanName": {
+            "value": "[parameters('pAppServicePlanName')]"
+          },
+          "pAppServiceName": {
+            "value": "[parameters('pAppServiceName')]"
+          },
+          "pInstrumentkey": {
+            "value": "[reference(resourceId('Microsoft.Resources/deployments', 'AppInsightsDeployment'), '2025-04-01').outputs.oAppInsightsInstrumentationKey.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.39.26.7824",
+              "templateHash": "3055499323120804996"
+            }
+          },
+          "parameters": {
+            "pAppServiceName": {
+              "type": "string"
+            },
+            "pAppServicePlanName": {
+              "type": "string"
+            },
+            "pInstrumentkey": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Web/serverfarms",
+              "apiVersion": "2021-02-01",
+              "name": "[parameters('pAppServicePlanName')]",
+              "location": "[resourceGroup().location]",
+              "sku": {
+                "name": "S1",
+                "tier": "standard",
+                "size": "S1",
+                "family": "S",
+                "capacity": 1
+              }
+            },
+            {
+              "type": "Microsoft.Web/sites",
+              "apiVersion": "2021-02-01",
+              "name": "[parameters('pAppServiceName')]",
+              "location": "[resourceGroup().location]",
+              "properties": {
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('pAppServicePlanName'))]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', parameters('pAppServicePlanName'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Web/sites/config",
+              "apiVersion": "2025-03-01",
+              "name": "[format('{0}/{1}', parameters('pAppServiceName'), 'web')]",
+              "properties": {
+                "appSettings": [
+                  {
+                    "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                    "value": "[parameters('pInstrumentkey')]"
+                  },
+                  {
+                    "name": "key2",
+                    "value": "value2"
+                  }
+                ]
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('pAppServiceName'))]"
+              ]
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'AppInsightsDeployment')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2025-04-01",
+      "name": "SQLDatabaseDeployment",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "pSqlServerName": {
+            "value": "[parameters('pSqlServerName')]"
+          },
+          "pSqlDatabaseName": {
+            "value": "[parameters('pSqlDatabaseName')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.39.26.7824",
+              "templateHash": "8217034792183104144"
+            }
+          },
+          "parameters": {
+            "pSqlServerName": {
+              "type": "string"
+            },
+            "pSqlDatabaseName": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Sql/servers",
+              "apiVersion": "2021-02-01-preview",
+              "name": "[parameters('pSqlServerName')]",
+              "location": "[resourceGroup().location]",
+              "properties": {
+                "administratorLogin": "sqladminuser",
+                "administratorLoginPassword": "P@ssw0rd1234!",
+                "version": "12.0"
+              }
+            },
+            {
+              "type": "Microsoft.Sql/servers/firewallRules",
+              "apiVersion": "2021-02-01-preview",
+              "name": "[format('{0}/{1}', parameters('pSqlServerName'), 'sqlServerFirewallRule1')]",
+              "properties": {
+                "startIpAddress": "4.4.4.4",
+                "endIpAddress": "4.4.4.4"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('pSqlServerName'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Sql/servers/databases",
+              "apiVersion": "2021-02-01-preview",
+              "name": "[format('{0}/{1}', parameters('pSqlServerName'), parameters('pSqlDatabaseName'))]",
+              "location": "[resourceGroup().location]",
+              "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS",
+                "maxSizeBytes": 2147483648,
+                "sku": {
+                  "name": "S0",
+                  "tier": "Standard",
+                  "capacity": 10
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('pSqlServerName'))]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2025-04-01",
+      "name": "AppInsightsDeployment",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "pAppInsightsName": {
+            "value": "[parameters('pAppInsightsName')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.39.26.7824",
+              "templateHash": "11723729349452997129"
+            }
+          },
+          "parameters": {
+            "pAppInsightsName": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Insights/components",
+              "apiVersion": "2020-02-02",
+              "name": "[parameters('pAppInsightsName')]",
+              "location": "[resourceGroup().location]",
+              "kind": "web",
+              "properties": {
+                "Application_Type": "web"
+              }
+            }
+          ],
+          "outputs": {
+            "oAppInsightsInstrumentationKey": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Insights/components', parameters('pAppInsightsName')), '2020-02-02').InstrumentationKey]"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

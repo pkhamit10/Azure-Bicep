@@ -1,8 +1,8 @@
-param pAppServicePlanName string = 'azbicep_dev_fc_asp1'
-param pAppServiceName string = 'azbicep-dev-fc-webapp1'
-param pAppInsightsName string = 'azbicep-dev-fc-ai1'
-param pSqlServerName string = 'azbicep-dev-fc-sqlserver1'
-param pSqlDatabaseName string = 'database1'
+param pAppServicePlanName string 
+param pAppServiceName string 
+param pAppInsightsName string 
+param pSqlServerName string 
+param pSqlDatabaseName string 
 
 module AppServicePlan '../AppServicePlan.bicep' = {
   name: 'deployAppServicePlan'

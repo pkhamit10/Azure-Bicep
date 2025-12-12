@@ -1,0 +1,21 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "pAppServicePlanName": {
+            "value": "azbicep_prod_fc_asp1"
+        },
+        "pAppServiceName": {
+            "value": "azbicep-prod-fc-webapp1"
+        },
+        "pAppInsightsName": {
+            "value": "azbicep-prod-fc-ai1"
+        },
+        "pSqlServerName": {
+            "value": "azbicep-prod-fc-sqlserver1"
+        },
+        "pSqlDatabaseName": {
+            "value": "database-prod"
+        }
+    }
+}

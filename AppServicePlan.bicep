@@ -1,6 +1,6 @@
-param pAppInsightsName string
 param pAppServiceName string 
 param pAppServicePlanName string
+param pInstrumentkey string
 
 //  AppServicePlan  Resource
 resource azbicepasp1 'Microsoft.Web/serverfarms@2021-02-01' = {
@@ -27,7 +27,6 @@ resource azbicepappserv1 'Microsoft.Web/sites@2021-02-01' = {
   ] 
 }  
 
-
 // Web App Settings
  resource azbicepwebapp1appsetting 'Microsoft.Web/sites/config@2025-03-01'  = {
   parent: azbicepappserv1
@@ -36,7 +35,7 @@ resource azbicepappserv1 'Microsoft.Web/sites@2021-02-01' = {
     appSettings: [
       {
         name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
-        value: azbicepappinsights1.properties.InstrumentationKey
+        value: pInstrumentkey
       }
       {
         name: 'key2'
@@ -45,14 +44,4 @@ resource azbicepappserv1 'Microsoft.Web/sites@2021-02-01' = {
     ]
   }
 } 
-  
- // Application Insights Resource
-resource azbicepappinsights1 'Microsoft.Insights/components@2020-02-02' = {
-  name: pAppInsightsName
-  location: resourceGroup().location
-  kind: 'web'
-  properties: {
-    Application_Type: 'web'
-  }
-}
  
