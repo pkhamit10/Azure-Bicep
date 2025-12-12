@@ -1,3 +1,4 @@
+//  AppServicePlan.bicep
 resource azbicepasp1 'Microsoft.Web/serverfarms@2021-02-01' = {
   name: 'azbicep_dev_fc_asp1'
   location: resourceGroup().location
@@ -10,6 +11,7 @@ resource azbicepasp1 'Microsoft.Web/serverfarms@2021-02-01' = {
   }
 }
 
+ // Web App Resource Service
 resource azbicepappserv1 'Microsoft.Web/sites@2021-02-01' = {
   name: 'azbicep-dev-fc-webapp1'
   location: resourceGroup().location
@@ -19,8 +21,10 @@ resource azbicepappserv1 'Microsoft.Web/sites@2021-02-01' = {
   dependsOn: [
     azbicepasp1
   ] 
-} 
+}  
 
+
+// Web App Application Settings
  resource azbicepwebapp1appsetting 'Microsoft.Web/sites/config@2025-03-01'  = {
   parent: azbicepappserv1
   name: 'web'
@@ -37,7 +41,8 @@ resource azbicepappserv1 'Microsoft.Web/sites@2021-02-01' = {
     ]
   }
 } 
- 
+  
+ // Application Insights Resource
 resource azbicepappinsights1 'Microsoft.Insights/components@2020-02-02' = {
   name: 'azbicep-dev-fc-ai1'
   location: resourceGroup().location
@@ -46,3 +51,4 @@ resource azbicepappinsights1 'Microsoft.Insights/components@2020-02-02' = {
     Application_Type: 'web'
   }
 }
+ 
