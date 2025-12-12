@@ -1,0 +1,44 @@
+# .gitignore for .NET / ASP.NET Core web app
+
+# Build artifacts
+[Bb]in/
+[Oo]bj/
+artifacts/
+*.dll
+*.exe
+*.app
+published/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider / IntelliJ
+.idea/
+*.sln.iml
+*.iml
+
+# Visual Studio Code workspace/settings (ignore local workspace, keep repo-level if desired)
+.vscode/
+
+# Publish / deployment
+publish/
+
+# ASP.NET / ASP.NET Core config & secrets
+appsettings.Development.json
+secrets.json
+local.settings.json
+.env
+.env.*
+
+# Misc
+.DS_Store
+Thumbs.db
+
+# ReSharper / JetBrains
+_ReSharper*/
+*.DotSettings.user
+*.dotCover
