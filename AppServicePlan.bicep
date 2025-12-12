@@ -1,6 +1,10 @@
-//  AppServicePlan.bicep
+param pAppInsightsName string
+param pAppServiceName string 
+param pAppServicePlanName string
+
+//  AppServicePlan  Resource
 resource azbicepasp1 'Microsoft.Web/serverfarms@2021-02-01' = {
-  name: 'azbicep_dev_fc_asp1'
+  name: pAppServicePlanName
   location: resourceGroup().location
   sku: {
     name: 'S1'
@@ -11,9 +15,9 @@ resource azbicepasp1 'Microsoft.Web/serverfarms@2021-02-01' = {
   }
 }
 
- // Web App Resource Service
+ // Web App Service
 resource azbicepappserv1 'Microsoft.Web/sites@2021-02-01' = {
-  name: 'azbicep-dev-fc-webapp1'
+  name: pAppServiceName
   location: resourceGroup().location
   properties: {
     serverFarmId: resourceId('Microsoft.Web/serverfarms', azbicepasp1.name)
@@ -24,7 +28,7 @@ resource azbicepappserv1 'Microsoft.Web/sites@2021-02-01' = {
 }  
 
 
-// Web App Application Settings
+// Web App Settings
  resource azbicepwebapp1appsetting 'Microsoft.Web/sites/config@2025-03-01'  = {
   parent: azbicepappserv1
   name: 'web'
@@ -44,7 +48,7 @@ resource azbicepappserv1 'Microsoft.Web/sites@2021-02-01' = {
   
  // Application Insights Resource
 resource azbicepappinsights1 'Microsoft.Insights/components@2020-02-02' = {
-  name: 'azbicep-dev-fc-ai1'
+  name: pAppInsightsName
   location: resourceGroup().location
   kind: 'web'
   properties: {
