@@ -3,6 +3,9 @@ param pAppServiceName string
 param pAppInsightsName string 
 param pSqlServerName string 
 param pSqlDatabaseName string 
+param padminLogin string 
+@secure()
+param padminPassword string
 
 module AppServicePlan '../AppServicePlan.bicep' = {
   name: 'deployAppServicePlan'
@@ -18,6 +21,8 @@ module SQLDatabase '../SQLDatabase.bicep' = {
   params: {
     pSqlServerName: pSqlServerName
     pSqlDatabaseName: pSqlDatabaseName
+    padminLogin: padminLogin
+    padminPassword: padminPassword
   }
 }
 
