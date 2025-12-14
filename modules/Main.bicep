@@ -4,8 +4,11 @@ param pAppInsightsName string
 param pSqlServerName string 
 param pSqlDatabaseName string 
 param padminLogin string 
-@secure()
-param padminPassword string
+
+resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' existing = {
+  name: 'azbicep-dev-fc-kv'
+  scope: resourceGroup('azbicep_common_kv_fc_rg')
+}
 
 module AppServicePlan '../AppServicePlan.bicep' = {
   name: 'deployAppServicePlan'
@@ -22,7 +25,7 @@ module SQLDatabase '../SQLDatabase.bicep' = {
     pSqlServerName: pSqlServerName
     pSqlDatabaseName: pSqlDatabaseName
     padminLogin: padminLogin
-    padminPassword: padminPassword
+    padminPassword: keyVault.getSecret('sqladminpassword')
   }
 }
 
