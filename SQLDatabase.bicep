@@ -1,12 +1,15 @@
 param pSqlServerName string
 param pSqlDatabaseName string 
+param padminLogin string 
+@secure()
+param padminPassword string
 
 resource sqlServer 'Microsoft.Sql/servers@2021-02-01-preview' = {
   name: pSqlServerName
   location: resourceGroup().location
   properties: {
-    administratorLogin: 'sqladminuser'
-    administratorLoginPassword: 'P@ssw0rd1234!'
+    administratorLogin: padminLogin
+    administratorLoginPassword: padminPassword
     version: '12.0'
   }
 }

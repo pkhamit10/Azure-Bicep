@@ -15,3 +15,7 @@ resource prod_rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   location: 'France Central'
 } 
 
+resource kv_rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
+  name: 'azbicep_common_kv_fc_rg'
+  location: 'France Central'
+} 
