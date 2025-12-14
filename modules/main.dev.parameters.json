@@ -19,14 +19,14 @@
         },
         "padminLogin": {
             "value": "sqladmin"
-        },
-         "padminPassword": {
+        }
+        /*  "padminPassword": {
             "reference": {
                 "keyVault": {
-                    "id": "/subscriptions/6fdde85c-cdef-487f-8dd8-c86165c4ce67/resourceGroups/azbicep_common_kv_fc_rg/providers/Microsoft.KeyVault/vaults/azbicep-dev-fc-keyv"
+                    "id": "/subscriptions/6fdde85c-cdef-487f-8dd8-c86165c4ce67/resourceGroups/azbicep_common_kv_fc_rg/providers/Microsoft.KeyVault/vaults/azbicep-dev-fc-kv"
                 },
                 "secretName": "padminPassword"
             }
-        }
+        } */
     }
 }
