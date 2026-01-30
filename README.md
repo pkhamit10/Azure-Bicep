@@ -13,3 +13,12 @@ Created **Azure Web App** using Bicep template that runs on the created **App Se
 ## Application Insights
 Created **Application Insights** using Bicep template for monitoring Azure web app. It will be linked to Web app to allow real-time monitoring and is being deployed in the same region as App Service.An App Insights integrates seamlessly with Azure Web Apps and supports alerts and dashboards.It will be linked to the Web App using APPINSIGHTS_INSTRUMENTATIONKEY in app settings.
 
+## SQL Server
+A **SQL Server instance** and a **SQL Database** is created within the SQL server instance using Bicep template and a **firewall** is added to the SQL Server to define which IP addresses are allowed to connect to the SQL Server. This ensures only specific IP addresses can access the SQL server, preventing unauthorized access from external sources.
+
+## Modules
+A main module is being created and invoking the submodules by passing inputs as parameters. It allows to  configure dependencies between modules. 
+
+## Parameters
+In order to have unique names for each resources across dev, stage and prod environments, created parameters for each resources. parameters allows the infrastructure bicep templates to have generic, reusable and environment independent.
+

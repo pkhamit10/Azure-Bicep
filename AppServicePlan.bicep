@@ -1,16 +1,20 @@
 param pAppServiceName string 
 param pAppServicePlanName string
 param pInstrumentkey string
-
+@allowed([
+  'Free'
+  'Shared'
+  'Basic'
+  'Standard'
+  'Premium'
+])
+param pSKUName string 
 //  AppServicePlan  Resource
 resource azbicepasp1 'Microsoft.Web/serverfarms@2021-02-01' = {
   name: pAppServicePlanName
   location: resourceGroup().location
   sku: {
-    name: 'S1'
-    tier: 'standard'
-    size: 'S1'
-    family: 'S'
+    name: pSKUName
     capacity: 1
   }
 }
