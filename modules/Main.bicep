@@ -4,6 +4,7 @@ param pAppInsightsName string
 param pSqlServerName string 
 param pSqlDatabaseName string 
 param padminLogin string 
+param pSKUName string = 'Standard'
 
 resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' existing = {
   name: 'azbicep-dev-fc-kv'
@@ -16,6 +17,7 @@ module AppServicePlan '../AppServicePlan.bicep' = {
     pAppServicePlanName: pAppServicePlanName
     pAppServiceName: pAppServiceName
     pInstrumentkey: AppInsights.outputs.oAppInsightsInstrumentationKey
+    pSKUName: pSKUName
   }
 }
 
