@@ -1,6 +1,14 @@
 param pAppServiceName string 
 param pAppServicePlanName string
 param pInstrumentkey string
+@description('''
+Please provide a valid SKU Name. The allowed values are: 
+- Free, 
+- Shared, 
+- Basic, 
+- Standard, 
+- Premium
+''')
 @allowed([
   'Free'
   'Shared'
