@@ -5,7 +5,7 @@ param pAppInsightsName string
 param pSqlServerName string 
 param pSqlDatabaseName string 
 param padminLogin string 
-param pSKUName string = (pEnvironment == 'dev') ? 'F1' : 'S1'
+param pSKUName string = (pEnvironment == 'dev') ? 'S1' : 'S2'
 param pSKUCapacity int = (pEnvironment == 'dev') ? 1 : 2
 resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' existing = {
   name: 'azbicep-dev-fc-kv'
@@ -20,6 +20,7 @@ module AppServicePlan '../AppServicePlan.bicep' = {
     pInstrumentkey: AppInsights.outputs.oAppInsightsInstrumentationKey
     pSKUName: pSKUName
     pSKUCapacity: pSKUCapacity
+    pEnvironment: pEnvironment
   }
 }
 

@@ -1,3 +1,4 @@
+param pEnvironment string 
 param pAppServiceName string 
 param pAppServicePlanName string
 param pInstrumentkey string
@@ -17,8 +18,8 @@ Please provide a valid SKU Name. The allowed values are:
   'B2'
 ])
 param pSKUName string 
-@maxValue(30)
 @minValue(1)
+@maxValue(30)
 param pSKUCapacity int
 //  AppServicePlan  Resource
 resource azbicepasp1 'Microsoft.Web/serverfarms@2021-02-01' = {
@@ -27,6 +28,15 @@ resource azbicepasp1 'Microsoft.Web/serverfarms@2021-02-01' = {
   sku: {
     name: pSKUName
     capacity: pSKUCapacity
+  }
+}
+
+resource WebAppSlot 'Microsoft.Web/sites/slots@2022-03-01' = if(pEnvironment == 'dev') {
+  name: 'staging'
+  location: resourceGroup().location
+  parent: azbicepappserv1
+  properties: {
+    serverFarmId: azbicepasp1.id
   }
 }
 
