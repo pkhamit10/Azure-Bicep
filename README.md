@@ -22,3 +22,5 @@ A main module is being created and invoking the submodules by passing inputs as 
 ## Parameters
 In order to have unique names for each resources across dev, stage and prod environments, created parameters for each resources. parameters allows the infrastructure bicep templates to have generic, reusable and environment independent.
 
+## Function app
+Storage account is required to be created.
