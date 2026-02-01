@@ -5,7 +5,7 @@ param pSqlServerName string
 param pSqlDatabaseName string 
 param padminLogin string 
 param pSKUName string = 'Standard'
-
+param pSKUCapacity int = 1
 resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' existing = {
   name: 'azbicep-dev-fc-kv'
   scope: resourceGroup('azbicep_common_kv_fc_rg')
@@ -18,6 +18,7 @@ module AppServicePlan '../AppServicePlan.bicep' = {
     pAppServiceName: pAppServiceName
     pInstrumentkey: AppInsights.outputs.oAppInsightsInstrumentationKey
     pSKUName: pSKUName
+    pSKUCapacity: pSKUCapacity
   }
 }
 
