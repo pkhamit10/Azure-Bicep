@@ -17,13 +17,16 @@ Please provide a valid SKU Name. The allowed values are:
   'Premium'
 ])
 param pSKUName string 
+@maxValue(30)
+@minValue(1)
+param pSKUCapacity int
 //  AppServicePlan  Resource
 resource azbicepasp1 'Microsoft.Web/serverfarms@2021-02-01' = {
   name: pAppServicePlanName
   location: resourceGroup().location
   sku: {
     name: pSKUName
-    capacity: 1
+    capacity: pSKUCapacity
   }
 }
 
