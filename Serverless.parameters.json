@@ -5,8 +5,18 @@
         "pStorageAccountName": {
             "value": "pkstorageaccount220a"
         },
-        "pLocation": {
-            "value": "[resourceGroup().location]"
+    
+        "pAppServicePlanName": {
+            "value": "pkAppServicePlan"
+        },
+        "pSKUCapacity": {
+            "value": 1
+        },
+        "pSKUName": {
+            "value": "S1"
+        },
+        "pFunctionAppName": {
+            "value": "pkFunctionApp2209"
         }
     }
 }
