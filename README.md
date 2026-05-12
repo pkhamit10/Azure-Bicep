@@ -23,6 +23,11 @@ A main module is being created and invoking the submodules by passing inputs as 
 In order to have unique names for each resources across dev, stage and prod environments, created parameters for each resources. parameters allows the infrastructure bicep templates to have generic, reusable and environment independent.
 
 ## Function app
-Storage account is required to be created.
+Storage account is required to be created.Function app resides within App service Plan and depends on Storage account and it is needed to store diagnostic information.
+Storage account is linked with connection string and Azure function.
 
 ## Application Insights
+App insight is being added and is connected to Azure function and connected using instrumenation key.
+
+## KeyVault
+
