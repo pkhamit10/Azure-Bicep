@@ -3,6 +3,8 @@ param pServerFarmId string
 param pFunctionAppName string
 param pStorageAccountName string 
 param pStorageAccountId string
+param pAppInsightsInstrumentationKey string
+param pAppInsightsID string
 
 resource functionApp 'Microsoft.Web/sites@2021-02-01' = {
   name: pFunctionAppName
@@ -40,6 +42,11 @@ resource functionApp 'Microsoft.Web/sites@2021-02-01' = {
         {
           name: 'WEBSITE_RUN_FROM_PACKAGE'
           value: '1'
+        }
+        {
+          name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+          value: pAppInsightsInstrumentationKey
+         // value: reference(pAppInsightsID, '2020-02-02').InstrumentationKey
         }
       ]
     }

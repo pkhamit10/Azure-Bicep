@@ -24,3 +24,5 @@ In order to have unique names for each resources across dev, stage and prod envi
 
 ## Function app
 Storage account is required to be created.
+
+## Application Insights
