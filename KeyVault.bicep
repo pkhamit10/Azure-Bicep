@@ -1,5 +1,13 @@
 param location string = resourceGroup().location
 param keyVaultName string = 'az-bicep-keyvaultpk1'
+param pAccessPolicies array = [
+  {
+    objectId: '907ba8dc-6c1f-4fa1-a337-e774f7f1d595'
+  }
+  {
+    objectId: '12345678-1234-1234-1234-123456789012'
+  }
+]
 
 resource keyVault 'Microsoft.KeyVault/vaults@2019-09-01' = {
   name: keyVaultName
@@ -10,13 +18,27 @@ resource keyVault 'Microsoft.KeyVault/vaults@2019-09-01' = {
     enabledForDiskEncryption: true
     tenantId: subscription().tenantId
     accessPolicies: [
-      {
-        tenantId: subscription().tenantId
-        objectId: '907ba8dc-6c1f-4fa1-a337-e774f7f1d595'
+    ]
+    sku: {
+      name: 'standard'
+      family: 'A'
+    }
+  }
+}
+
+resource AccessPolicies 'Microsoft.KeyVault/vaults/accessPolicies@2025-05-01' = {
+  name: 'add'
+  parent: keyVault
+  properties: {
+    accessPolicies: [
+      for policy in pAccessPolicies: {
+        objectId: policy.objectId
         permissions: {
           keys: [
-            'get'
             'list'
+            'get'
+            'create'
+            'delete'
           ]
           secrets: [
             'list'
@@ -24,12 +46,9 @@ resource keyVault 'Microsoft.KeyVault/vaults@2019-09-01' = {
             'set'
           ]
         }
+        tenantId: subscription().tenantId
       }
     ]
-    sku: {
-      name: 'standard'
-      family: 'A'
-    }
   }
 }
 
