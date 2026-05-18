@@ -32,3 +32,5 @@ App insight is being added and is connected to Azure function and connected usin
 ## Container Registry
 Bicep modules are common for all the business units and is reusable components. Container registry is used to host the common bicep modules and then all business units can invoke these modules by passing their own parameters. container registry host containers, and they suport hosting bicep modules as well.
 
+## Logic Apps
+Logic app is used to store configuration information like storing connection strings. It doesn't need to write any code, its based on GUI.
