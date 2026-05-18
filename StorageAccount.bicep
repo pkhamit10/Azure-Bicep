@@ -1,4 +1,5 @@
 param pStorageAccountName string
+param pfileShareName string
 param pLocation string = resourceGroup().location
 resource storageaccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: pStorageAccountName
@@ -10,6 +11,10 @@ resource storageaccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   properties: {
     accessTier: 'Hot'
   }
+}
+
+resource fileShare 'Microsoft.Storage/storageAccounts/fileServices/shares@2022-09-01' = {
+  name: '$(pStorageAccountName)/default/${pfileShareName}'
 }
 
 output oStorageAccountId string = storageaccount.id

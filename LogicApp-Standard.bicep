@@ -1,16 +1,16 @@
 param pLogicAppName string 
 param Location string = resourceGroup().location
-param pAppServicePlanID string
 param pStorageAccountName string 
 param pAppInsightsName string
 param pfileShare string
+param pAppServicePlanName string
 
 resource logicApp_Strandard 'Microsoft.Web/sites@2025-03-01' = {
   location: resourceGroup().location
   name: pLogicAppName
   kind: 'FunctionApp,workflowapp'
   properties: {
-    serverFarmId: pAppServicePlanID // 
+    serverFarmId: appserviceplan.outputs.oAppServicePlanId
     siteConfig: {
       netFrameworkVersion: 'v4.8'
       functionsRuntimeScaleMonitoringEnabled: false
@@ -20,6 +20,14 @@ resource logicApp_Strandard 'Microsoft.Web/sites@2025-03-01' = {
     appinsights_module
     storage_module
   ]
+}
+
+module appserviceplan 'AppServicePlan-Linux.bicep' = {
+  name: 'appserviceplan'
+  params: {
+    pAppServicePlanName: pAppServicePlanName
+    pLocation: Location
+  }
 }
 
 module appinsights_module './modules/AppInsights.bicep' = {
@@ -39,6 +47,7 @@ module storage_module 'StorageAccount.bicep' = {
   params: {
     pStorageAccountName: pStorageAccountName
     pLocation: Location
+    pfileShareName: pfileShare
   }
 }
 

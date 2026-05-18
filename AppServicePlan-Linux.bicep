@@ -1,7 +1,7 @@
 param pAppServicePlanName string
 param pLocation string = resourceGroup().location
-param pSKUName string
-param pSKUCapacity int
+param pSKUName string = 'S1'
+param pSKUCapacity int = 1
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2021-02-01' = {
   name: pAppServicePlanName
