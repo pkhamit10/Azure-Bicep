@@ -1,7 +1,8 @@
 param pStorageAccountName string
+param pLocation string = resourceGroup().location
 resource storageaccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: pStorageAccountName
-  location: resourceGroup().location
+  location: pLocation
   sku: {
     name: 'Standard_LRS'
   }
