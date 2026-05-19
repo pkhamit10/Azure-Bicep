@@ -14,7 +14,11 @@ resource storageaccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
 }
 
 resource fileShare 'Microsoft.Storage/storageAccounts/fileServices/shares@2022-09-01' = {
-  name: '$(pStorageAccountName)/default/${pfileShareName}'
+  name: '${pStorageAccountName}/default/${pfileShareName}'
+  dependsOn: [
+    storageaccount
+  ]
 }
 
 output oStorageAccountId string = storageaccount.id
+

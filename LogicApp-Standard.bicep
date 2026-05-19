@@ -1,14 +1,27 @@
-param pLogicAppName string 
+param pLogicAppName string = 'azbicepdevfrlogicapppk'
 param Location string = resourceGroup().location
-param pStorageAccountName string 
-param pAppInsightsName string
-param pfileShare string
-param pAppServicePlanName string
+param pStorageAccountName string = 'azbicepdevfrstoragepk'
+param pAppInsightsName string = 'azbicepdevfrappinsightspk'
+param pfileShare string = 'fapppkfileshare'
+param pAppServicePlanName string = 'azbicepdevfrappserviceplanpk'
 
-resource logicApp_Strandard 'Microsoft.Web/sites@2025-03-01' = {
+module storage_module 'StorageAccount.bicep' = {
+  name: 'storage_module'
+  params: {
+    pStorageAccountName: pStorageAccountName
+    pLocation: Location
+    pfileShareName: pfileShare
+  }
+}
+
+resource storageaccount 'Microsoft.Storage/storageAccounts@2022-09-01' existing = {
+  name: pStorageAccountName
+}
+
+resource logicApp_Standard 'Microsoft.Web/sites@2025-03-01' = {
   location: resourceGroup().location
   name: pLogicAppName
-  kind: 'FunctionApp,workflowapp'
+  kind: 'functionapp,linux,workflowapp'
   properties: {
     serverFarmId: appserviceplan.outputs.oAppServicePlanId
     siteConfig: {
@@ -38,22 +51,9 @@ module appinsights_module './modules/AppInsights.bicep' = {
   }
 }
 
-resource storageaccount 'Microsoft.Storage/storageAccounts@2022-09-01' existing = {
-  name: pStorageAccountName
-}
-
-module storage_module 'StorageAccount.bicep' = {
-  name: 'storage_module'
-  params: {
-    pStorageAccountName: pStorageAccountName
-    pLocation: Location
-    pfileShareName: pfileShare
-  }
-}
-
 resource appsetting 'Microsoft.Web/sites/config@2025-03-01' = {
   name: 'appsettings'
-  parent: logicApp_Strandard
+  parent: logicApp_Standard
   properties: {
     App_Kind: 'workflowapp'
     APPINSIGHTS_INSTRUMENTATIONKEY: appinsights_module.outputs.oAppInsightsInstrumentationKey
