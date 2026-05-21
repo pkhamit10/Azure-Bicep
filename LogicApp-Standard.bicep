@@ -63,3 +63,41 @@ resource appsetting 'Microsoft.Web/sites/config@2025-03-01' = {
     WEBSITE_CONTENTSHARE: pfileShare
   }
 }
+
+resource loganalytics_workspace 'Microsoft.OperationalInsights/workspaces@2020-08-01' = {
+  name: '${pLogicAppName}-LogAnalytics'
+  location: Location
+  properties: {
+    sku: {
+      name: 'PerGB2018'
+    }
+  }
+}
+
+resource logicapps_diagnostic 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+  name: '${pLogicAppName}-DiagnosticSettings'
+  scope: logicApp_Standard
+  properties: {
+    workspaceId: loganalytics_workspace.id
+    logs: [
+      {
+        category: 'WorkflowRuntime'
+        enabled: true
+        retentionPolicy: {
+          enabled: false
+          days: 0
+        }
+      }
+    ]
+    metrics: [
+      {
+        category: 'AllMetrics'
+        enabled: true
+        retentionPolicy: {
+          enabled: false
+          days: 0
+        }
+      }
+    ]
+  }
+}
