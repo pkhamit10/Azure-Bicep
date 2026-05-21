@@ -81,7 +81,7 @@ resource logicapps_diagnostic 'Microsoft.Insights/diagnosticSettings@2021-05-01-
     workspaceId: loganalytics_workspace.id
     logs: [
       {
-        category: 'WorkflowRuntime'
+        categoryGroup: 'AllLogs'
         enabled: true
         retentionPolicy: {
           enabled: false
