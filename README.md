@@ -34,3 +34,9 @@ Bicep modules are common for all the business units and is reusable components. 
 
 ## Logic Apps
 Logic app is used to store configuration information like storing connection strings. It doesn't need to write any code, its based on GUI.
+
+## Loganalytics workspace
+Log analytics is created for collecting, storing, monitoring the search logs of resources.
+
+## Diagnostic Settings
+Diagnostic settings are used to send logs and monitoring data to analyse. 
