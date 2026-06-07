@@ -1,6 +1,6 @@
 using './Main.bicep'
 
-param pEnvironment = 'dev'
+param pEnvironment = 'prod'
 /*param pAppServicePlanName = 'azbicep-dev-fc-asp1'
 param pAppServiceName = 'azbicep-dev-fc-webapp1'
 param pAppInsightsName = 'azbicep-dev-fc-ai1'

@@ -1,6 +1,5 @@
 {
     "projectnameprefix": "azbicep",
-    "envprefix": "dev",
     "regionprefix":"fc",
     "appserviceplanprefix": "asp",
     "appserviceprefix": "webapp",
