@@ -5,6 +5,7 @@ param pAppInsightsName string
 param pSqlServerName string 
 param pSqlDatabaseName string 
 param padminLogin string 
+
 /* param pSKUName string = (pEnvironment == 'dev') ? 'S1' : 'S2'
 param pSKUCapacity int = (pEnvironment == 'dev') ? 1 : 2 */
 

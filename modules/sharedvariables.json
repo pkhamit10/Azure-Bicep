@@ -1,0 +1,12 @@
+{
+    "projectnameprefix": "azbicep",
+    "envprefix": "dev",
+    "regionprefix":"fc",
+    "appserviceplanprefix": "asp",
+    "appserviceprefix": "webapp",
+    "appinsightsprefix": "ai",
+    "sqlserverprefix": "sqlserver",
+    "sqldatabaseprefix": "database",
+    "adminlogin": "sqladmin"
+}
+
