@@ -19,6 +19,9 @@
         },
         "padminLogin": {
             "value": "sqladmin"
+        },
+        "pEnvironment" : {
+            "value": "dev"
         }
         /*  "padminPassword": {
             "reference": {

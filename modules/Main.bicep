@@ -5,8 +5,24 @@ param pAppInsightsName string
 param pSqlServerName string 
 param pSqlDatabaseName string 
 param padminLogin string 
-param pSKUName string = (pEnvironment == 'dev') ? 'S1' : 'S2'
-param pSKUCapacity int = (pEnvironment == 'dev') ? 1 : 2
+/* param pSKUName string = (pEnvironment == 'dev') ? 'S1' : 'S2'
+param pSKUCapacity int = (pEnvironment == 'dev') ? 1 : 2 */
+
+var vConfigurations = {
+    dev: {
+      AppServicePlan: {
+        SKUName: 'S1'
+        SKUCapacity: 1
+      }
+    }
+    prod: {
+      AppServicePlan: {
+        SKUName: 'S2'
+        SKUCapacity: 5
+      }
+  }
+}
+
 resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' existing = {
   name: 'azbicep-dev-fc-kv'
   scope: resourceGroup('azbicep_common_kv_fc_rg')
@@ -18,8 +34,8 @@ module AppServicePlan '../AppServicePlan.bicep' = {
     pAppServicePlanName: pAppServicePlanName
     pAppServiceName: pAppServiceName
     pInstrumentkey: AppInsights.outputs.oAppInsightsInstrumentationKey
-    pSKUName: pSKUName
-    pSKUCapacity: pSKUCapacity
+    pSKUName: vConfigurations[pEnvironment].AppServicePlan.SKUName
+    pSKUCapacity: vConfigurations[pEnvironment].AppServicePlan.SKUCapacity
     pEnvironment: pEnvironment
   }
 }
